@@ -1,0 +1,1 @@
+python C:\transcricao_whisper.py

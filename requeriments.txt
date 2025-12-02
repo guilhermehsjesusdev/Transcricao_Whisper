@@ -1,0 +1,8 @@
+# PyTorch (necesario para Whisper)
+torch>=2.0.0
+
+# Whisper (desde GitHub)
+git+https://github.com/openai/whisper.git
+
+# Barra de progreso
+tqdm

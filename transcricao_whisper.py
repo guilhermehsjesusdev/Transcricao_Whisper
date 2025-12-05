@@ -64,11 +64,9 @@ def transcrever_audio(caminho_arquivo):
         global resultado_global
         nonlocal animando
         try:
-            # Captura toda a saída do verbose do Whisper no terminal
             resultado = model.transcribe(caminho_arquivo, verbose=True)
             texto_completo = resultado["text"]
 
-            # Atualiza variável global e interface
             resultado_global = texto_completo
             saida_texto.insert(tk.END, "\n=== TRANSCRIÇÃO COMPLETA ===\n\n")
             saida_texto.insert(tk.END, resultado_global)
@@ -79,10 +77,17 @@ def transcrever_audio(caminho_arquivo):
             animando = False
             return
 
-        # Salvar transcrição completa
-        diretorio = os.path.dirname(caminho_arquivo)
+        # ---------- SALVAR SEMPRE NA PASTA DA ÁREA DE TRABALHO ----------
+        desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+        pasta_transcricao = os.path.join(desktop, "Transcricao")
+
+        # Criar pasta se não existir
+        if not os.path.exists(pasta_transcricao):
+            os.makedirs(pasta_transcricao)
+
         nome_base = os.path.splitext(os.path.basename(caminho_arquivo))[0]
-        arquivo_saida = os.path.join(diretorio, f"{nome_base}_transcricao.txt")
+        arquivo_saida = os.path.join(pasta_transcricao, f"{nome_base}_transcricao.txt")
+
         try:
             with open(arquivo_saida, "w", encoding="utf-8") as f:
                 f.write(resultado_global)
